@@ -1,0 +1,30 @@
+CREATE DATABASE bisiklet;
+use bisiklet;
+
+-- Kullanıcılar Tablosu
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    card_id varchar(255) not null,
+    role ENUM('admin', 'user') NOT NULL -- Admin veya user rolü
+);
+
+
+create table rents(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	user_id int not null,
+	start_time datetime not null,
+    end_time datetime,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+create table payment(
+	payment_id int AUTO_INCREMENT PRIMARY KEY,
+    user_id int,
+    rent_id int,
+    amount float,
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY (rent_id) REFERENCES rents(id) ON DELETE CASCADE 
+);

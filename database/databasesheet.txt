@@ -1,0 +1,50 @@
+Table Users {
+  user_id INT [pk, increment]  Primary key
+  name VARCHAR
+  email VARCHAR [unique]
+  phone VARCHAR
+  card_id VARCHAR [unique]
+  created_at DATETIME [default `CURRENT_TIMESTAMP`]
+}
+
+Table Bicycles {
+  bicycle_id INT [pk, increment]  Primary key
+  station_id INT [ref  Stations.station_id]  Foreign key
+  status ENUM('available', 'in use', 'maintenance') [default 'available']
+  model VARCHAR
+  last_serviced DATE
+}
+
+Table Stations {
+  station_id INT [pk, increment]  Primary key
+  name VARCHAR
+  location VARCHAR
+  capacity INT
+}
+
+Table Rentals {
+  rental_id INT [pk, increment]  Primary key
+  user_id INT [ref  Users.user_id]  Foreign key
+  bicycle_id INT [ref  Bicycles.bicycle_id]  Foreign key
+  start_time DATETIME
+  end_time DATETIME
+  cost DECIMAL(10, 2)
+}
+
+Table Payments {
+  payment_id INT [pk, increment]  Primary key
+  user_id INT [ref  Users.user_id]  Foreign key
+  rental_id INT [ref  Rentals.rental_id]  Foreign key
+  amount DECIMAL(10, 2)
+  payment_method VARCHAR
+  payment_date DATETIME [default `CURRENT_TIMESTAMP`]
+}
+
+Table Maintenance {
+  maintenance_id INT [pk, increment]  Primary key
+  bicycle_id INT [ref  Bicycles.bicycle_id]  Foreign key
+  maintenance_date DATE
+  description TEXT
+  status VARCHAR
+}
+
